@@ -43,20 +43,20 @@ public class App {
 							System.out.println("아이디를 입력해주세요");
 							continue;
 						}
-						
+
 						SecSql sql = new SecSql();
-						
+
 						sql.append("SELECT COUNT(*) > 0");
 						sql.append("FROM `member`");
 						sql.append("WHERE loginId = ?", loginId);
-						
+
 						boolean isLoginIdDup = DBUtil.selectRowBooleanValue(conn, sql);
-						
-						if(isLoginIdDup) {
+
+						if (isLoginIdDup) {
 							System.out.printf("%s은(는) 이미 사용중인 아이디입니다\n", loginId);
 							continue;
 						}
-						
+
 						System.out.printf("%s은(는) 사용가능한 아이디입니다\n", loginId);
 						break;
 					}
