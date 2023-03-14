@@ -140,6 +140,8 @@ public class App {
 					List<Article> articles = new ArrayList<>();
 
 					SecSql sql = new SecSql();
+					
+					
 
 					sql.append("SELECT *");
 					sql.append("FROM article");
