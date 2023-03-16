@@ -4,8 +4,9 @@ import java.sql.Connection;
 import java.util.List;
 import java.util.Scanner;
 
-import com.KoreaIT.example.JAM.Article;
+import com.KoreaIT.example.JAM.dto.Article;
 import com.KoreaIT.example.JAM.service.ArticleService;
+import com.KoreaIT.example.JAM.session.Session;
 import com.KoreaIT.example.JAM.util.SecSql;
 
 public class ArticleController {
@@ -32,10 +33,10 @@ public class ArticleController {
 	}
 
 	public void showList() {
+		
 		System.out.println("== 게시물 목록 ==");
 
 		List<Article> articles = articleService.getArticles();
-//		List<Map<String, Object>> articleListMap = DBUtil.selectRows(conn, sql);
 
 		if (articles.size() == 0) {
 			System.out.println("게시물이 없습니다");
