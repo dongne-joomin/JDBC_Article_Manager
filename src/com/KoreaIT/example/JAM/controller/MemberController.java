@@ -150,7 +150,9 @@ public class MemberController {
 			System.out.println("로그인 후 이용해 주세요.");
 			return;
 		}
+		
 		Session.logout();
+		
 		System.out.println("로그아웃 되었습니다.");
 	}
 
