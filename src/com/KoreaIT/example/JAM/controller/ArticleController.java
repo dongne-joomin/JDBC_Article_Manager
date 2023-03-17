@@ -8,6 +8,7 @@ import com.KoreaIT.example.JAM.dto.Article;
 import com.KoreaIT.example.JAM.service.ArticleService;
 import com.KoreaIT.example.JAM.session.Session;
 import com.KoreaIT.example.JAM.util.SecSql;
+import com.KoreaIT.example.JAM.util.Util;
 
 public class ArticleController {
 
@@ -20,19 +21,19 @@ public class ArticleController {
 	}
 
 	public void doWrite() {
-		
+
 		if (Session.isLogined() == false) {
 			System.out.println("로그인 후 이용해 주세요.");
 			return;
 		}
-		
+
 		System.out.println("== 게시물 작성 ==");
 
 		System.out.printf("제목 : ");
 		String title = sc.nextLine();
 		System.out.printf("내용 : ");
 		String body = sc.nextLine();
-		
+
 		int id = articleService.doWrite(title, body, Session.loginedMemberId);
 
 		System.out.printf("%d번 글이 생성되었습니다\n", id);
@@ -49,10 +50,10 @@ public class ArticleController {
 			return;
 		}
 
-		System.out.println("번호	|	제목");
+		System.out.println("번호	|	제목	|	작성자	|	작성날짜");
 
 		for (Article article : articles) {
-			System.out.printf("%d	|	%s\n", article.id, article.title);
+			System.out.printf("%d	|	%s	|	%s	|	%s\n", article.id, article.title, article.writerName, Util.daterimeFormat(article.updateDate));
 		}
 	}
 
@@ -69,14 +70,19 @@ public class ArticleController {
 		System.out.printf("== %d번 게시물 상세보기 ==\n", id);
 
 		System.out.printf("번호 : %d\n", article.id);
-		System.out.printf("작성날짜 : %s\n", article.regDate);
-		System.out.printf("수정날짜 : %s\n", article.updateDate);
+		System.out.printf("작성날짜 : %s\n", Util.daterimeFormat(article.regDate));
+		System.out.printf("수정날짜 : %s\n", Util.daterimeFormat(article.updateDate));
+		System.out.printf("제목 : %s\n", article.writerName);
 		System.out.printf("제목 : %s\n", article.title);
 		System.out.printf("내용 : %s\n", article.body);
-
 	}
 
 	public void doModify(String cmd) {
+
+		if (Session.isLogined() == false) {
+			System.out.println("로그인 후 이용해 주세요.");
+			return;
+		}
 
 		int id = Integer.parseInt(cmd.split(" ")[2]);
 
@@ -100,6 +106,11 @@ public class ArticleController {
 	}
 
 	public void doDelete(String cmd) {
+
+		if (Session.isLogined() == false) {
+			System.out.println("로그인 후 이용해 주세요.");
+			return;
+		}
 
 		int id = Integer.parseInt(cmd.split(" ")[2]);
 

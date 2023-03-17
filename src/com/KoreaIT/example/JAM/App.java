@@ -27,6 +27,11 @@ public class App {
 			while (true) {
 				System.out.printf("명령어) ");
 				String cmd = sc.nextLine().trim();
+				
+				if (cmd.equals("exit")) {
+					System.out.println("== 프로그램 종료 ==");
+					break;
+				}
 
 				if (cmd.equals("member join")) {
 					memberController.doJoin();
@@ -48,10 +53,6 @@ public class App {
 					articleController.doDelete(cmd);
 				}
 
-				if (cmd.equals("exit")) {
-					System.out.println("== 프로그램 종료 ==");
-					break;
-				}
 
 			}
 

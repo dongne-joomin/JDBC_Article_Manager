@@ -33,28 +33,28 @@ public class ArticleService {
 	}
 
 	public Article getArticle(int id) {
-		
+
 		Map<String, Object> articleMap = articleDao.getArticle(id);
-		
+
 		if (articleMap.isEmpty()) {
 			return null;
 		}
-		
+
 		return new Article(articleMap);
 	}
 
 	public int getArticleCount(int id) {
-		
+
 		return articleDao.getArticleCount(id);
 	}
 
 	public void doMdify(String title, String body, int id) {
-		
+
 		articleDao.doMdify(title, body, id);
 	}
 
 	public void doDelete(int id) {
-		
+
 		articleDao.doDelete(id);
 	}
 

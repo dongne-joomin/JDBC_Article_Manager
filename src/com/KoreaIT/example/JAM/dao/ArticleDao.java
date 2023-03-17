@@ -31,11 +31,11 @@ public class ArticleDao {
 	public List<Map<String, Object>> getArticles() {
 		SecSql sql = new SecSql();
 
-		sql.append("SELECT *");
-		sql.append("FROM article");
-		sql.append("INNER JOIN `member`");
-		sql.append("ON article.memberId = `member`.id");
-		sql.append("ORDER BY article.id DESC");
+		sql.append("SELECT a.*, m.name ");
+		sql.append("FROM article AS a");
+		sql.append("INNER JOIN member AS m");
+		sql.append("ON a.memberId = m.id");
+		sql.append("ORDER BY a.id DESC");
 
 		return DBUtil.selectRows(conn, sql);
 	}
@@ -44,10 +44,12 @@ public class ArticleDao {
 
 		SecSql sql = new SecSql();
 
-		sql.append("SELECT *");
-		sql.append("FROM article");
-		sql.append("WHERE id = ?", id);
-		
+		sql.append("SELECT a.*, m.name");
+		sql.append("FROM article AS a");
+		sql.append("INNER JOIN member AS m");
+		sql.append("ON a.memberId = m.id");
+		sql.append("WHERE a.id = ?", id);
+
 		return DBUtil.selectRow(conn, sql);
 	}
 
@@ -58,7 +60,7 @@ public class ArticleDao {
 		sql.append("SELECT COUNT(*)");
 		sql.append("FROM article");
 		sql.append("WHERE id = ?", id);
-		
+
 		return DBUtil.selectRowIntValue(conn, sql);
 	}
 
@@ -70,9 +72,9 @@ public class ArticleDao {
 		sql.append(", title = ?", title);
 		sql.append(", `body` = ?", body);
 		sql.append("WHERE id = ?", id);
-		
+
 		DBUtil.update(conn, sql);
-		
+
 	}
 
 	public void doDelete(int id) {
@@ -80,9 +82,9 @@ public class ArticleDao {
 
 		sql.append("DELETE FROM article");
 		sql.append("WHERE id = ?", id);
-		
+
 		DBUtil.delete(conn, sql);
-		
+
 	}
 
 }
