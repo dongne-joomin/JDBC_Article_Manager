@@ -31,7 +31,7 @@ public class ArticleDao {
 	public List<Map<String, Object>> getArticles() {
 		SecSql sql = new SecSql();
 
-		sql.append("SELECT a.*, m.name ");
+		sql.append("SELECT a.*, m.name");
 		sql.append("FROM article AS a");
 		sql.append("INNER JOIN member AS m");
 		sql.append("ON a.memberId = m.id");

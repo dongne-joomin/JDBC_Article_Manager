@@ -7,7 +7,6 @@ import java.util.Scanner;
 import com.KoreaIT.example.JAM.dto.Article;
 import com.KoreaIT.example.JAM.service.ArticleService;
 import com.KoreaIT.example.JAM.session.Session;
-import com.KoreaIT.example.JAM.util.SecSql;
 import com.KoreaIT.example.JAM.util.Util;
 
 public class ArticleController {
@@ -53,7 +52,8 @@ public class ArticleController {
 		System.out.println("번호	|	제목	|	작성자	|	작성날짜");
 
 		for (Article article : articles) {
-			System.out.printf("%d	|	%s	|	%s	|	%s\n", article.id, article.title, article.writerName, Util.daterimeFormat(article.updateDate));
+			System.out.printf("%d	|	%s	|	%s	|	%s\n", article.id, article.title, article.writerName,
+					Util.daterimeFormat(article.updateDate));
 		}
 	}
 
@@ -78,7 +78,6 @@ public class ArticleController {
 	}
 
 	public void doModify(String cmd) {
-
 		if (Session.isLogined() == false) {
 			System.out.println("로그인 후 이용해 주세요.");
 			return;
@@ -86,10 +85,15 @@ public class ArticleController {
 
 		int id = Integer.parseInt(cmd.split(" ")[2]);
 
-		int articleCount = articleService.getArticleCount(id);
+		Article article = articleService.getArticle(id);
 
-		if (articleCount == 0) {
+		if (article == null) {
 			System.out.printf("%d번 글은 존재하지 않습니다\n", id);
+			return;
+		}
+
+		if (article.memberId != Session.loginedMemberId) {
+			System.out.println("해당 게시글에 대한 수정권한이 없습니다.");
 			return;
 		}
 
@@ -106,7 +110,6 @@ public class ArticleController {
 	}
 
 	public void doDelete(String cmd) {
-
 		if (Session.isLogined() == false) {
 			System.out.println("로그인 후 이용해 주세요.");
 			return;
@@ -114,15 +117,15 @@ public class ArticleController {
 
 		int id = Integer.parseInt(cmd.split(" ")[2]);
 
-		SecSql sql = new SecSql();
+		Article article = articleService.getArticle(id);
 
-		sql.append("SELECT COUNT(*)");
-		sql.append("FROM article");
-		sql.append("WHERE id = ?", id);
-
-		int articleCount = articleService.getArticleCount(id);
-		if (articleCount == 0) {
+		if (article == null) {
 			System.out.printf("%d번 글은 존재하지 않습니다\n", id);
+			return;
+		}
+
+		if (article.memberId != Session.loginedMemberId) {
+			System.out.println("해당 게시글에 대한 삭제권한이 없습니다.");
 			return;
 		}
 
